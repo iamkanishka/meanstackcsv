@@ -1,0 +1,119 @@
+<div class="image"> 
+
+  <!-- <div *ngIf=false > -->
+
+<div fxLayout="row" fxLayoutAlign="end start" style="position: absolute;top:3%;right:1%;width:100%;height: 25%">                                                         
+ 
+  <div >
+
+  <button mat-raised-button   style="background-color:orangered;color: white;font-size: 150%;font-family: Lato" *ngIf=takelog (click)=getreg() >Register</button>
+  </div>
+  <div >
+    <button mat-raised-button   style="background-color:orangered;color: white;font-size: 150%;font-family: Lato" *ngIf=!takelog (click)=getlog() >Login</button>
+   </div>
+     
+  </div>
+
+
+<!-- for phone auth
+<div id="recaptcha-container"></div>
+for phone auth-->
+<div class="container" fxLayout.lg="row" fxLayoutAlign="center center"
+  style="position: absolute;top:33%;width:100%;height: 25%" >
+  <mat-card fxFlex="25" style="border: 2px solid royalblue;" >
+    <div fxLayout="column" fxLayoutAlign="center center" >
+    
+    <mat-card-title style="font-size: 350%;color:royalblue;font-family: Lato" *ngIf=takelog>Login</mat-card-title>
+    <mat-card-title style="font-size: 350%;color:royalblue;font-family: Lato" *ngIf=takereg>Register</mat-card-title>
+  </div>
+  <div style="padding-top: 20px;"></div>
+    <mat-card-content *ngIf=!reset>
+      <form fxLayout="column" fxLayoutGap="10px" [formGroup]="loginform">
+
+        <mat-form-field fxFlex=5>
+          <input type="text" matInput placeholder="Enter your Email ID" formControlName="email" autocomplete="off">
+        </mat-form-field>
+
+        <mat-form-field fxFlex=5>
+          <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'"
+            formControlName="password" autocomplete="off">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+           
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+      </form>
+  
+
+   
+     
+
+
+      <div style="padding-bottom: 10%"></div>
+<div fxLayout="row" fxLayoutAlign="space-between end" >
+  <button mat-icon-button  (click)="this.showinfo=true" >
+    <mat-icon style="size: 125%" >info</mat-icon>
+  </button>
+
+
+
+    <div>
+    
+      <div fxLayout="row" fxLayoutAlign="end end" *ngIf="takelog"  >
+        <!-- <label style="font-family: Lato;font-size: 100%;" (click)="this.reset=true;this.resetemail.reset()" ><b>ForgotPassword?...</b></label> -->
+     <button mat-raised-button [disabled]="loginform.invalid" 
+          style="background-color:royalblue;color: white;font-size: 150%;font-family: Lato" 
+          (click)=login()>Login</button>
+
+      </div>
+       
+      <mat-card-actions fxLayout="column" fxLayoutAlign="end end" *ngIf="takereg" >
+       
+        <button mat-raised-button 
+          [disabled]="loginform.invalid"
+          style="background-color:royalblue;color: white;font-size: 150%;font-family: Lato"
+          (click)=Register()>Register</button>
+
+      
+      
+      </mat-card-actions>
+
+    </div>
+
+</div>
+
+  
+  
+
+  </mat-card-content>
+
+
+
+  </mat-card>
+
+</div>
+
+
+<div class="container" fxLayout="column" fxLayoutAlign="center center"
+  style="position: absolute;top:30%;width:100%;height: 30%" *ngIf="showinfo"  >
+<img src="../../assets/meann.PNG" >
+
+
+<div fxLayout="row" fxLayoutAlign="end end">
+
+<button mat-raised-button 
+
+style="background-color:royalblue;color: white;font-size: 150%;font-family: Lato"
+(click)="this.showinfo=false">Close</button>
+
+<button mat-raised-button 
+
+style="background-color:royalblue;color: white;font-size: 150%;font-family: Lato"
+(click)="">Github Link</button>
+</div>
+
+
+
+</div>
+</div>

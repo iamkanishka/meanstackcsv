@@ -1,0 +1,34 @@
+.example-container {
+    height: 460px;
+   overflow: auto;
+   
+   
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  
+  .sidenav-container {
+    height: 100%;
+  }
+  
+  .sidenav {
+    width: 230px;
+  }
+  
+  .sidenav .mat-toolbar {
+  background: lightgreen;
+}
+  
+  .mat-toolbar.mat-primary {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+ 
+
+
+
+

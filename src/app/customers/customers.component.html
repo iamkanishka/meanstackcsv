@@ -1,0 +1,195 @@
+
+      <div style="margin-left: 10px;margin-right:10px">
+          <mat-toolbar style="background-color: lightgreen;font-size: 200%">
+            
+              <span style="color: green;;font-family: Lato;">Users</span>
+              <span fxFlex></span>
+
+              <button mat-icon-button routerLink="/" routerLinkActive="active" (click)="this.d.myauth=false" >
+                <mat-icon style="size: 125%" >home</mat-icon>
+              </button>
+      
+
+
+          </mat-toolbar>
+      </div>
+
+
+
+    <div style="margin-top: 10px;margin-left: 20px;margin-right: 20px">
+
+      <mat-card style="background-color:white;border :1.5px solid green" fxLayout="row" fxLayoutAlign="space-between center">
+
+        <mat-form-field fxFlex="35">
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search User">
+        </mat-form-field>
+
+
+
+        <div fxLayout="column" fxLayoutAlign="center end">
+         
+           <button mat-button style="background-color:royalblue;color: white;font-size: 120%" 
+             (click)="this.showaddc=true;">Add User</button></div>
+         
+        
+      </mat-card>
+
+
+
+
+      <div class="example-container mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="no">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </td>
+          </ng-container>
+
+
+          <!-- FirstName Column -->
+          <ng-container matColumnDef="firstname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fullname </th>
+            <td mat-cell *matCellDef="let row"> {{row.fullname}} </td>
+          </ng-container>
+          <ng-container matColumnDef="review">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Review </th>
+            <td mat-cell *matCellDef="let row"> {{row.review}} </td>
+          </ng-container>
+          <ng-container matColumnDef="rating">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Rating </th>
+            <td mat-cell *matCellDef="let row"> {{row.rating}} </td>
+          </ng-container>
+         
+
+          <!-- Actions(edit and delete) Column -->
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+            <td mat-cell *matCellDef="let row">
+              <button mat-icon-button aria-label="Example icon-button with a heart icon">
+               
+                <mat-icon style="size: 125%" (click)="editloaddata(row)" >edit</mat-icon>
+              </button>
+              <button mat-icon-button aria-label="Example icon-button with a heart icon">
+                
+                <mat-icon style="size: 125%" (click)="ondelete(row.id)" >delete</mat-icon>
+                
+              </button>
+            </td>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+          </tr>
+        </table>
+
+      </div>
+
+
+      <mat-paginator [pageSizeOptions]="[8, 20, 25, 100]" [pageSize]="8"
+        style="color: black;border-bottom: 2px outset green; " showFirstLastButtons></mat-paginator>
+
+
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="center start" style="position: absolute;top:25%;width:100%;height: 25%"
+      *ngIf=showaddc>
+      <mat-card fxFlex="60" style="border: 2px solid royalblue" >
+
+        <mat-card-title><label class="mat-display-2" style="color: green">{{headstring}} User</label>
+        </mat-card-title>
+
+        <form fxLayout="row" fxLayoutGap="30px" [formGroup]="flform">
+          <mat-form-field fxFlex="50">
+            <input matInput placeholder="Fullname" autocomplete="off" formControlName="fullname">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="50">
+            <input matInput placeholder="Review" formControlName="review" autocomplete="off">
+          </mat-form-field>
+          <mat-form-field fxFlex="50">
+            <input matInput placeholder="Rating" formControlName="rating" autocomplete="off">
+          </mat-form-field>
+        </form>
+
+
+
+
+
+        <mat-card-actions mat-footer-row fxLayout="row" fxLayoutAlign="space-between end">
+
+
+<div>
+  <button mat-button style="color: black;background-color: royalblue" (click)="this.showcsv=true;this.showaddc=false" >
+    <mat-icon style="size: 125%">line_style</mat-icon>Add With CSV File
+  </button>
+
+</div>
+
+          <div>
+          <button mat-button style="color: black;background-color: whitesmoke" (click)="cancel()">
+            <mat-icon style="size: 125%">cancel</mat-icon>Cancel
+          </button>
+
+
+
+
+
+          <button mat-button style="color: black;background-color: orangered"
+            [disabled]="flform.invalid"
+            (click)="addemp()" *ngIf=showaddemp>
+            <mat-icon style="size: 125%">add</mat-icon>{{abs}}
+          </button>
+          <button mat-button style="color: black;background-color: orangered"
+            [disabled]="flform.invalid"
+            (click)="updatedata()" *ngIf=showup>
+            <mat-icon style="size: 125%">home</mat-icon>{{aus}}
+          </button>
+        </div>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+
+  
+    <div fxLayout="row" fxLayoutAlign="center start" style="position: absolute;top:30%;width:100%;height: 25%"
+      *ngIf=showcsv>
+      <mat-card style="border: 2px solid royalblue;">
+
+
+        <mat-form-field class="example-full-width">
+          <input [hidden]="true" (change)="onFileSelect($event)" type="file" accept="all/*" #fileSelect>
+          <input readonly matInput [(ngModel)]="filename" placeholder="Select file..." />
+          <button *ngIf="this.base64File" (click)="this.base64File = null; this.filename = null;this.mmydata=null" matSuffix
+            matTooltip="Remove selected file" [matTooltipPosition]="'above'" type="button" color="warn" mat-icon-button>
+            <mat-icon>close</mat-icon>
+          </button>
+    
+        </mat-form-field>
+        <button matSuffix mat-icon-button (click)="fileSelect.click();" style="color:white;background-color:royalblue"
+          matTooltip="Select a file" [matTooltipPosition]="'above'">
+          <mat-icon>attach_file</mat-icon>
+        </button>
+    
+        <div mat-footer-row fxLayout="row" fxLayoutAlign="end end">
+          <button mat-button style="color: black;background-color: whitesmoke" (click)="this.showaddc=true;this.showcsv=false;this.base64File = null; this.filename = null;this.mmydata=null ">
+            <mat-icon style="size: 125%">cancel</mat-icon>Cancel
+          </button>
+        </div>
+      </mat-card>
+      
+
+      
+
+    </div>
+
+   
+
+
+
+
+
+
+
+
+
